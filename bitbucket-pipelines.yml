@@ -1,0 +1,94 @@
+image: atlassian/default-image:2
+clone:
+  depth: full
+pipelines:
+  branches:
+    "master":
+      - step:
+          name: DEV - Install NPM, build frontend and test
+          deployment: dev
+          caches:
+            - npm
+          script:
+            - nvm install stable
+            - npm i -g npm
+            - npm ci
+            - REACT_APP_USER_POOL_ID=$USER_POOL_ID REACT_APP_APP_CLIENT_ID=$APP_CLIENT_ID REACT_APP_API_URL=$API_URL npm run build
+            # - npm run test
+            - echo $AWS_ACCESS_KEY_ID > .aws_access_key_id
+            - echo $AWS_SECRET_ACCESS_KEY > .aws_secret_access_key
+            - echo $S3_BUCKET > .s3_bucket
+            - echo $DISTRIBUTION_ID > .distribution_id
+          artifacts:
+            - .aws_access_key_id
+            - .aws_secret_access_key
+            - .s3_bucket
+            - .distribution_id
+            - build/**
+      - step:
+          trigger: manual
+          name: DEV - Deploy to S3 and invalidate CloudFront distribution
+          script:
+            - export AWS_ACCESS_KEY_ID=`cat .aws_access_key_id`
+            - export AWS_SECRET_ACCESS_KEY=`cat .aws_secret_access_key`
+            - export S3_BUCKET=`cat .s3_bucket`
+            - export DISTRIBUTION_ID=`cat .distribution_id`
+            - pipe: atlassian/aws-s3-deploy:0.5.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: "ap-southeast-1"
+                S3_BUCKET: $S3_BUCKET
+                LOCAL_PATH: "build"
+            - pipe: atlassian/aws-cloudfront-invalidate:0.5.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: "ap-southeast-1"
+                DISTRIBUTION_ID: $DISTRIBUTION_ID
+      - step:
+          trigger: manual
+          name: PROD - Install NPM, build frontend and test
+          deployment: prod
+          caches:
+            - npm
+          script:
+            - nvm install stable
+            - npm i -g npm
+            - npm ci
+            - REACT_APP_API_KEY=$API_KEY REACT_APP_API_URL=$API_URL npm run build
+            # - npm run test
+            - echo $AWS_ACCESS_KEY_ID > .aws_access_key_id
+            - echo $AWS_SECRET_ACCESS_KEY > .aws_secret_access_key
+            - echo $S3_BUCKET > .s3_bucket
+            - echo $DISTRIBUTION_ID > .distribution_id
+          artifacts:
+            - .aws_access_key_id
+            - .aws_secret_access_key
+            - .s3_bucket
+            - .distribution_id
+            - build/**
+      - step:
+          trigger: manual
+          name: PROD - Deploy to S3 and invalidate CloudFront distribution
+          script:
+            - export AWS_ACCESS_KEY_ID=`cat .aws_access_key_id`
+            - export AWS_SECRET_ACCESS_KEY=`cat .aws_secret_access_keyW`
+            - export S3_BUCKET=`cat .s3_bucket`
+            - export DISTRIBUTION_ID=`cat .distribution_id`
+            - pipe: atlassian/aws-s3-deploy:0.5.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: "ap-southeast-1"
+                S3_BUCKET: $S3_BUCKET
+                LOCAL_PATH: "build"
+            - pipe: atlassian/aws-cloudfront-invalidate:0.5.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: "ap-southeast-1"
+                DISTRIBUTION_ID: $DISTRIBUTION_ID
+definitions:
+  caches:
+    npm: ~/.npm

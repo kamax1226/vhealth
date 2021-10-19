@@ -1,0 +1,70 @@
+//
+// Content
+//
+
+// Desktop Mode
+.landing {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.landing-left {
+    background-color: #1e2756;
+    background-size: 100% 100%;
+    padding: 96px 92px;
+}
+
+.landing-right {
+    align-self: center;
+    text-align: center;
+}
+
+.logo-title {
+    text-align: center;
+}
+
+.sub-title {
+    margin-top: 240px;
+    color: #FABD5A;
+    font-family: 'Manrope', sans-serif;
+    font-style: normal;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 32px;
+}
+
+.main-title {
+    margin-top: 10px;
+    color: white;
+    font-family: 'Rubik', sans-serif;
+    font-style: normal;
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 70px;
+}
+
+.auth-group {
+    margin-top: 50px;
+}
+
+#hb_login_signin_form_submit_button {
+    background: #F79150;
+    width: 180px;
+    height: 50px;
+}
+
+#forgot_password_button {
+    margin-left: 20px;
+    color: #F79150;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    display: none;
+}
+
+.landing-right-vector {
+    max-width: 500px;
+    width: 70%;
+}

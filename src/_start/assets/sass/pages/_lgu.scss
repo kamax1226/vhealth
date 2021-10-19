@@ -1,0 +1,14 @@
+.btn-lgu {
+    color: #616D84;
+    background-color: rgba(88, 100, 123, 0.28);
+    padding: 20px 20px !important;
+
+    &.active {
+        color: #F79150;
+        background-color: $hb-component;
+    }
+}
+
+.lgu-item {
+    width: 25%;
+}
