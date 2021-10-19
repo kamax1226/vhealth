@@ -14,12 +14,7 @@ Download and install Git version control client.
 
 ## Project Running
 
-For the development, update the src/app/config/dev.ts as below.
-```
-const COOKIE_STORAGE = "localhost";
-const REDIRECT_SIGNIN_URL = "http://localhost:" + PORT + "/dashboard";
-const REDIRECT_SIGNOUT_URL = "http://localhost:" + PORT + "/logout";
-```
+Create .env file in the root folder and follow the .env.example to fill the values.
 
 ### Start the development
 
