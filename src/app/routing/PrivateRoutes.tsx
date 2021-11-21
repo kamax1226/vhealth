@@ -26,7 +26,7 @@ export function PrivateRoutes() {
         <Route path="/start" component={StartDashboardWrapper} />
         <Route path="/light" component={LightDashboardWrapper} />
         <Route path="/profile" component={ProfilePageWrapper} />
-        <Redirect from="/auth" to="/dashboard" />
+        <Redirect from="/" to="/dashboard" />
         <Redirect exact from="/" to="/dashboard" />
         <Redirect to="dashboard" />
       </Switch>

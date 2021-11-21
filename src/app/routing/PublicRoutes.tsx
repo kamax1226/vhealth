@@ -5,8 +5,8 @@ import { LandingPage } from "../modules/auth";
 export function PublicRoutes() {
   return (
     <Switch>
-      <Route path="/auth" component={LandingPage} />
-      <Redirect to="/auth" />
+      <Route path="/" component={LandingPage} />
+      <Redirect to="/" />
     </Switch>
   );
 }
