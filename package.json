@@ -2,7 +2,7 @@
   "name": "hopblox-health",
   "version": "1.0.0",
   "private": true,
-  "homepage": "/",
+  "homepage": "https://kamax1226.github.io/vhealth/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@manaflair/redux-batch": "^1.0.0",
